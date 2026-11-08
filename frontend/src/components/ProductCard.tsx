@@ -1,4 +1,5 @@
 import type { Product } from "../types/product";
+import { Link } from "react-router-dom";
 
 interface ProductCardProps {
   product: Product;
@@ -12,11 +13,9 @@ export default function ProductCard({
   return (
     <article className="product-card">
       <div className="product-image-container">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="product-image"
-        />
+        <Link to={`/productos/${product.id}`} aria-label={`Ver ${product.name}`}>
+          <img src={product.image} alt={product.name} className="product-image" />
+        </Link>
       </div>
 
       <div className="product-info">
@@ -24,7 +23,9 @@ export default function ProductCard({
           {product.category}
         </span>
 
-        <h3>{product.name}</h3>
+        <h3>
+          <Link to={`/productos/${product.id}`}>{product.name}</Link>
+        </h3>
 
         <p>{product.description}</p>
 

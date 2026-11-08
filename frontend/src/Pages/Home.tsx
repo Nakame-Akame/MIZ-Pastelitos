@@ -1,5 +1,6 @@
-import { products } from "../Data/products";
 import ProductCard from "../components/ProductCard";
+import ProductSkeleton from "../components/ProductSkeleton";
+import { useProducts } from "../hooks/useProducts";
 import type { Product } from "../types/product";
 
 interface HomeProps {
@@ -7,7 +8,8 @@ interface HomeProps {
 }
 
 export default function Home({ onAddToCart }: HomeProps) {
-  const featuredProducts = products.filter(
+  const { data: products, isLoading } = useProducts();
+  const featuredProducts = (products ?? []).filter(
     (product) => product.featured
   );
 
@@ -16,13 +18,11 @@ export default function Home({ onAddToCart }: HomeProps) {
       <section className="hero">
         <div className="hero-content">
           <span className="hero-tag">
-            MIZ Pastelitos
+            Hecho con cariño, para compartir
           </span>
 
           <h1>
-            El sabor que
-            <br />
-            te encanta
+            El sabor que <strong>te encanta</strong>
           </h1>
 
           <p>
@@ -38,7 +38,6 @@ export default function Home({ onAddToCart }: HomeProps) {
 
       <section id="productos" className="products-section">
         <div className="section-heading">
-          <span>Descubre nuestros productos</span>
           <h2>Productos destacados</h2>
           <p>
             Conoce algunas de las opciones que tenemos
@@ -47,13 +46,11 @@ export default function Home({ onAddToCart }: HomeProps) {
         </div>
 
         <div className="products-grid">
-          {featuredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={onAddToCart}
-            />
-          ))}
+          {isLoading
+            ? [1, 2, 3].map((item) => <ProductSkeleton key={item} />)
+            : featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+              ))}
         </div>
       </section>
 
