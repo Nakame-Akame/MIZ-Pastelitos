@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 interface HeaderProps {
   cartCount: number;
@@ -5,6 +6,10 @@ interface HeaderProps {
 }
 
 export default function Header({ cartCount, onCartClick }: HeaderProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <header className="header">
       <div className="header-container">
@@ -12,11 +17,23 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
           MIZ <span>Pastelitos</span>
         </Link>
 
-        <nav className="nav">
-          <Link to="/">Inicio</Link>
-          <Link to="/catalogo">Productos</Link>
-          <a href="/#nosotros">Nosotros</a>
-          <a href="/#contacto">Contacto</a>
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <nav className={menuOpen ? "nav nav-open" : "nav"}>
+          <Link to="/" onClick={closeMenu}>Inicio</Link>
+          <Link to="/catalogo" onClick={closeMenu}>Productos</Link>
+          <a href="/#nosotros" onClick={closeMenu}>Nosotros</a>
+          <a href="/#contacto" onClick={closeMenu}>Contacto</a>
         </nav>
 
         <button className="cart-button" onClick={onCartClick} type="button">

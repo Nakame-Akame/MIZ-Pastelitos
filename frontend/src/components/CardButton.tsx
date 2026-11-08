@@ -1,14 +1,10 @@
-import type { Product } from "../types/product";
 import { Link } from "react-router-dom";
-
-export interface CartItem extends Product {
-  quantity: number;
-}
+import type { CartItem } from "../store/cartStore";
 
 interface CartButtonProps {
   items: CartItem[];
   onClose: () => void;
-  onAdd: (product: Product) => void;
+  onAdd: (item: CartItem) => void;
   onRemove: (productId: number) => void;
   onClear: () => void;
 }
